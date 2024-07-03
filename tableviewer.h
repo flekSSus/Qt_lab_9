@@ -7,6 +7,7 @@
 #include <QPushButton>
 #include <QFileDialog>
 #include <QDebug>
+#include<QGridLayout>
 
 class TableViewer:public QWidget
 {
@@ -18,11 +19,15 @@ public:
 
     QTableWidget *_pTable;
     QPushButton * _pLoadButton;
+    QPushButton * _pSortUpButton;
+    QStringList listStr;
+    QGridLayout *_pGridLayout;
+    QFile chosenFile;
 
 public slots:
     void WriteTable();
-
     void CreateWindow();
+    void SortUp();
 
 };
 

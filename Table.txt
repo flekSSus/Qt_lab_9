@@ -1,0 +1,6 @@
+3
+3
+afile 1 3
+gfile 2 8
+xfile 3 6
+
