@@ -37,38 +37,44 @@ void TableViewer::WriteTable()
 }
 TableViewer::TableViewer()
 {
-
     CreateWindow();
-
 }
 
 void TableViewer::CreateWindow()
 {
-    setFocusPolicy(Qt::StrongFocus);
+
     _pTable=new QTableWidget(this);
     _pLoadButton=new QPushButton("Load",this);
     _pSortUpButton=new QPushButton("Sort Up",this);
     _pGridLayout=new QGridLayout(this);
+    _pLabelImage=new QLabel(this);
+    _pContMenu=new QMenu(this);
 
-    //Load Button
+    //ContextMenu
 
+    _pContMenu->addAction("Close");
 
-    //Table
+    //Pixmap
 
+    _pImage.load("Qt_Image_PNG.png");
 
-    //SortUp Button
+    //Label Image
 
+    _pLabelImage->setPixmap(_pImage);
 
     //Layout
 
     _pGridLayout->addWidget(_pLoadButton,1,0);
     _pGridLayout->addWidget(_pSortUpButton,2,0);
     _pGridLayout->addWidget(_pTable,1,1,3,3);
+    _pGridLayout->addWidget(_pLabelImage,3,0);
 
     connect(_pLoadButton,SIGNAL(clicked()),this,SLOT(WriteTable()));
     connect(_pSortUpButton,SIGNAL(clicked()),this,SLOT(SortUp()));
+    connect(_pContMenu,SIGNAL(triggered(QAction*)),this,SLOT(close()));
 
     //this
+    setFocusPolicy(Qt::StrongFocus);
     resize(600,300);
     setLayout(_pGridLayout);
 }
@@ -90,10 +96,25 @@ void TableViewer::SortUp()
 }
 void TableViewer::keyPressEvent(QKeyEvent *pKEO)
 {
-    std::cout<<"OK";
-    if(pKEO->key()==Qt::Key_L/*&&pKEO->modifiers()==Qt::NoModifier*/)
-    {
+
+    switch (pKEO->key())
+        {
+    case Qt::Key_L:
         WriteTable();
+        }
+
+}
+void TableViewer::mousePressEvent(QMouseEvent *pMEO)
+{
+    if(pMEO->button()==Qt::RightButton)
+    {
+        _pContMenu->setGeometry(pMEO->globalX(),pMEO->globalY(),100,30);
+        _pContMenu->show();
+
     }
 
+}
+void TableViewer::contextMenuEvent(QMenu *pContMenu)
+{
+    _pContMenu->exec();
 }

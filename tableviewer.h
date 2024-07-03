@@ -3,13 +3,18 @@
 #include<QWidget>
 #include<QTableWidget>
 #include <QFile>
+#include <QString>
 #include<QTextStream>
 #include <QPushButton>
 #include <QFileDialog>
 #include <QDebug>
+#include<QMenu>
 #include<QKeyEvent>
+#include<QMouseEvent>
 #include<QGridLayout>
 #include<iostream>
+#include<QLabel>
+#include<QPixmap>
 
 class TableViewer:public QWidget
 {
@@ -25,15 +30,21 @@ public:
     QStringList listStr;
     QGridLayout *_pGridLayout;
     QFile chosenFile;
+    QLabel * _pLabelImage;
+    QPixmap _pImage;
+    QMenu *_pContMenu;
 
 protected:
 
     void keyPressEvent(QKeyEvent* pKEO);
+    void mousePressEvent(QMouseEvent* pMEO);
+    void contextMenuEvent(QMenu *pContMenu);
 
 public slots:
     void WriteTable();
     void CreateWindow();
     void SortUp();
+
 
 };
 
