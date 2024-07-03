@@ -7,7 +7,9 @@
 #include <QPushButton>
 #include <QFileDialog>
 #include <QDebug>
+#include<QKeyEvent>
 #include<QGridLayout>
+#include<iostream>
 
 class TableViewer:public QWidget
 {
@@ -23,6 +25,10 @@ public:
     QStringList listStr;
     QGridLayout *_pGridLayout;
     QFile chosenFile;
+
+protected:
+
+    void keyPressEvent(QKeyEvent* pKEO);
 
 public slots:
     void WriteTable();

@@ -18,20 +18,17 @@ void TableViewer::WriteTable()
     _pGridLayout->addWidget(_pTable,1,1,3,3);
 
     _pTable->show();
-
     _pTable->setRowCount(tmpStr1.toInt());
     _pTable->setColumnCount(tmpStr2.toInt());
     _pTable->setHorizontalHeaderLabels(QStringList()<<"Name"<<"Path"<<"Size");
 
     listStr.clear();
-    QString str1,str2;
+
     fileTextStream1.readLine();
     for(int i=0; i<_pTable->rowCount();++i)
     {
-
-            str1=fileTextStream1.readLine();
-            listStr.insert(i,str1);
-            for(int j=0;j<_pTable->columnCount();++j)
+        listStr.insert(i,fileTextStream1.readLine());
+        for(int j=0;j<_pTable->columnCount();++j)
             _pTable->setItem(i,j,new QTableWidgetItem(listStr[i].split(" ").at(j)));
     }
 
@@ -47,7 +44,7 @@ TableViewer::TableViewer()
 
 void TableViewer::CreateWindow()
 {
-
+    setFocusPolicy(Qt::StrongFocus);
     _pTable=new QTableWidget(this);
     _pLoadButton=new QPushButton("Load",this);
     _pSortUpButton=new QPushButton("Sort Up",this);
@@ -86,10 +83,17 @@ void TableViewer::SortUp()
     fileTextStream1<<"\n";
     fileTextStream1<<_pTable->columnCount();
     fileTextStream1<<"\n";
-    for(int i=0;i<_pTable->columnCount();++i){
+    for(int i=0;i<_pTable->columnCount();++i)
         fileTextStream1<<listStr.at(i)<<'\n';
-    }
 
     chosenFile.close();
 }
+void TableViewer::keyPressEvent(QKeyEvent *pKEO)
+{
+    std::cout<<"OK";
+    if(pKEO->key()==Qt::Key_L/*&&pKEO->modifiers()==Qt::NoModifier*/)
+    {
+        WriteTable();
+    }
 
+}
