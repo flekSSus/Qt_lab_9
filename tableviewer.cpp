@@ -49,6 +49,12 @@ void TableViewer::CreateWindow()
     _pGridLayout=new QGridLayout(this);
     _pLabelImage=new QLabel(this);
     _pContMenu=new QMenu(this);
+    _pChBoxBackGround=new QCheckBox("Random Background Color",this);
+
+    //CheckBox
+
+    _pChBoxBackGround->setCheckState(Qt::Unchecked);
+
 
     //ContextMenu
 
@@ -68,10 +74,12 @@ void TableViewer::CreateWindow()
     _pGridLayout->addWidget(_pSortUpButton,2,0);
     _pGridLayout->addWidget(_pTable,1,1,3,3);
     _pGridLayout->addWidget(_pLabelImage,3,0);
+    _pGridLayout->addWidget(_pChBoxBackGround,4,0);
 
     connect(_pLoadButton,SIGNAL(clicked()),this,SLOT(WriteTable()));
     connect(_pSortUpButton,SIGNAL(clicked()),this,SLOT(SortUp()));
     connect(_pContMenu,SIGNAL(triggered(QAction*)),this,SLOT(close()));
+    connect(_pChBoxBackGround,&QCheckBox::toggled,this,&TableViewer::ChangeBackground);
 
     //this
     setFocusPolicy(Qt::StrongFocus);
@@ -96,11 +104,11 @@ void TableViewer::SortUp()
 }
 void TableViewer::keyPressEvent(QKeyEvent *pKEO)
 {
-
     switch (pKEO->key())
         {
     case Qt::Key_L:
         WriteTable();
+        break;
         }
 
 }
@@ -110,11 +118,51 @@ void TableViewer::mousePressEvent(QMouseEvent *pMEO)
     {
         _pContMenu->setGeometry(pMEO->globalX(),pMEO->globalY(),100,30);
         _pContMenu->show();
-
     }
 
 }
-void TableViewer::contextMenuEvent(QMenu *pContMenu)
+
+void TableViewer::ChangeBackground()
 {
-    _pContMenu->exec();
+    if(_pChBoxBackGround->isChecked())
+    {
+        switch (rand()%4)
+        {
+        case 0:
+        {
+            QPalette pal1;
+            pal1.setColor(QPalette::Window,Qt::green);
+            this->setPalette(pal1);
+        }
+            break;
+        case 1:
+        {
+            QPalette pal1;
+            pal1.setColor(QPalette::Window,Qt::red);
+            this->setPalette(pal1);
+        }
+            break;
+        case 2:
+        {
+            QPalette pal2;
+            pal2.setColor(QPalette::Window,Qt::blue);
+            this->setPalette(pal2);
+        }
+            break;
+        case 3:
+        {
+            QPalette pal3;
+            pal3.setColor(QPalette::Window,Qt::yellow);
+            this->setPalette(pal3);
+        }
+            break;
+        }
+    }
+    else
+    {
+        QPalette pal2;
+        pal2.setColor(QPalette::Window,Qt::white);
+        this->setPalette(pal2);
+    }
 }
+

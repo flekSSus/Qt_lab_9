@@ -15,6 +15,8 @@
 #include<iostream>
 #include<QLabel>
 #include<QPixmap>
+#include<QCheckBox>
+#include<QPalette>
 
 class TableViewer:public QWidget
 {
@@ -33,17 +35,18 @@ public:
     QLabel * _pLabelImage;
     QPixmap _pImage;
     QMenu *_pContMenu;
+    QCheckBox *_pChBoxBackGround;
 
 protected:
 
     void keyPressEvent(QKeyEvent* pKEO);
     void mousePressEvent(QMouseEvent* pMEO);
-    void contextMenuEvent(QMenu *pContMenu);
 
 public slots:
     void WriteTable();
     void CreateWindow();
     void SortUp();
+    void ChangeBackground();
 
 
 };
