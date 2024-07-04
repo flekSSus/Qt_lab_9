@@ -46,6 +46,7 @@ void TableViewer::CreateWindow()
     _pTable=new QTableWidget(this);
     _pLoadButton=new QPushButton("Load",this);
     _pSortUpButton=new QPushButton("Sort Up",this);
+    _pBubbleSortButton=new QPushButton("Bubble Sort",this);
     _pGridLayout=new QGridLayout(this);
     _pLabelImage=new QLabel(this);
     _pContMenu=new QMenu(this);
@@ -75,9 +76,11 @@ void TableViewer::CreateWindow()
     _pGridLayout->addWidget(_pTable,1,1,3,3);
     _pGridLayout->addWidget(_pLabelImage,3,0);
     _pGridLayout->addWidget(_pChBoxBackGround,4,0);
+    _pGridLayout->addWidget(_pBubbleSortButton,5,0);
 
     connect(_pLoadButton,SIGNAL(clicked()),this,SLOT(WriteTable()));
     connect(_pSortUpButton,SIGNAL(clicked()),this,SLOT(SortUp()));
+    connect(_pBubbleSortButton,SIGNAL(clicked()),this,SLOT(BubbleSort()));
     connect(_pContMenu,SIGNAL(triggered(QAction*)),this,SLOT(close()));
     connect(_pChBoxBackGround,&QCheckBox::toggled,this,&TableViewer::ChangeBackground);
 
@@ -165,4 +168,24 @@ void TableViewer::ChangeBackground()
         this->setPalette(pal2);
     }
 }
+void TableViewer::BubbleSort()
+{
+    chosenFile.open(QIODevice::ReadWrite|QIODevice::Text);
+    QTextStream fileTextStream1(&chosenFile);
 
+    int i,j;
+    for (i = 0; i < listStr.size() - 1; i++)
+        for (j = 0; j < listStr.size() - i - 1; j++)
+            if (listStr.at(j) > listStr.at(j+1))
+                listStr.swapItemsAt(j,j+1);
+
+    fileTextStream1<<_pTable->rowCount();
+    fileTextStream1<<"\n";
+    fileTextStream1<<_pTable->columnCount();
+    fileTextStream1<<"\n";
+    for(int i=0;i<_pTable->columnCount();++i)
+        fileTextStream1<<listStr.at(i)<<'\n';
+
+    chosenFile.close();
+
+}
