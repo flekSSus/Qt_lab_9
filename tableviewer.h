@@ -17,6 +17,7 @@
 #include<QPixmap>
 #include<QCheckBox>
 #include<QPalette>
+#include<QStringList>
 
 class TableViewer:public QWidget
 {
@@ -29,6 +30,7 @@ public:
     QTableWidget *_pTable;
     QPushButton * _pLoadButton;
     QPushButton * _pSortUpButton;
+    QPushButton * _pBubbleSortButton;
     QStringList listStr;
     QGridLayout *_pGridLayout;
     QFile chosenFile;
@@ -47,7 +49,7 @@ public slots:
     void CreateWindow();
     void SortUp();
     void ChangeBackground();
-
+    void BubbleSort();
 
 };
 
